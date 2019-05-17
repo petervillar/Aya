@@ -23,7 +23,7 @@
 <ROOM ROOM-HIDDEN
     (DESC "The Hidden Room")
     (IN ROOMS)
-    (LDESC "This is the hidden room, where the most precious and sacred artifacts of the cult are preserved. There is a stone altar dedicated to the god Sobek.")
+    (LDESC "This is the hidden room, where the most precious and sacred artifacts of the cult are preserved. There is a stone altar in the middle of the room, dedicated to the god Sobek.")
     (FLAGS LIGHTBIT ONBIT)>
 
 <SYNTAX EXIT = V-EXIT>
