@@ -20,12 +20,17 @@
 
 <INSERT-FILE "parser">
 
-
 <ROOM ROOM-HIDDEN
     (DESC "The Hidden Room")
     (IN ROOMS)
-    (LDESC "This is the hidden room, where the most precious and sacred artifacts of the cult are preserved.")
+    (LDESC "This is the hidden room, where the most precious and sacred artifacts of the cult are preserved. There is a stone altar dedicated to the god Sobek.")
     (FLAGS LIGHTBIT ONBIT)>
+
+<SYNTAX EXIT = V-EXIT>
+
+<ROUTINE V-EXIT ()
+    <TELL "The secret chamber has no obvious exits." CR>
+>
 
 <OBJECT STATUETTE
     (DESC "statuette")
@@ -46,3 +51,21 @@
 
 <ROUTINE GOWN-R ()
     <COND (<VERB? EXAMINE> <TELL "The gown is white and fairly plain." CR>)>>
+
+<OBJECT ALTAR
+    (DESC "altar")
+    (SYNONYM ALTAR SOBEK)
+    (IN ROOM-HIDDEN)
+    (FLAGS NODESC)
+    (ACTION ALTAR-R)>
+
+<SYNTAX WORSHIP OBJECT = V-WORSHIP>
+<VERB-SYNONYM WORSHIP>
+<ROUTINE V-WORSHIP ()
+    <TELL "You worshipping has been in vain." CR>>
+
+
+<ROUTINE ALTAR-R ()
+    <COND (<VERB? EXAMINE> <TELL "It is made from one piece of stone, and is probably used for worshipping ceremonies." CR> <RTRUE>)
+          (<VERB? WORSHIP> <JIGS-UP "Sobek is pleased and accepts your worship.|Congratulations, you are a full priestess now.">)> <QUIT>>
+
