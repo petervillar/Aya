@@ -191,6 +191,10 @@ WATER	54	noun
 LAKE	54	noun
 OASIS	55	noun
 SANDA	56	noun
+PATH	57	noun
+TEMPL	58	noun
+ENGRA	59	noun
+FEET	60	noun
 ;                       Verbs
 GET     20      verb
 TAKE    20      verb
@@ -221,6 +225,7 @@ WASH	35	verb
 POUR	35	verb
 HELLO	36	verb
 YES	37	verb
+ENTER	38	verb
 ;                               Adjectives
 SMALL   2       adjective
 BIG     3       adjective
@@ -271,7 +276,7 @@ THEN    2       conjugation
 It's too dark to see anything.
 /1
 
-I can also see 
+You can also see 
 /2
 ;
 ;What now?
@@ -288,15 +293,15 @@ I can also see
 I was not able to understand any of that.
 
 /7
-I can't go in that direction.
+You can't go in that direction.
 
 /8
-I can't do that.
+You can't do that.
 
 /9
-I have with me 
+You are carrying 
 /10
-I am wearing 
+You are wearing 
 /11 ;*Spare
 /12
 Are you sure? 
@@ -316,25 +321,25 @@ Press any key to continue.
 /21 ;*You have scored
 /22 ;*%[CR]
 /23
-I'm not wearing one of those.
+You are not wearing one of those.
 
 /24
-I can't.  I'm wearing the _.
+You can't. You are wearing the _.
 
 /25
-I already have the _.
+You already have the _.
 
 /26
 There isn't one of those here.
 
 /27
-I can't carry any more things.
+You can't carry any more things.
 
 /28
-I don't have one of those.
+You don't have one of those.
 
 /29
-I'm already wearing the _.
+You are already wearing the _.
 
 /30     ;One upper case character only
 Y
@@ -351,28 +356,28 @@ More...
 Time passes...
 
 /36
-I now have the _.
+You now have the _.
 
 /37
-I'm now wearing the _.
+You are now wearing the _.
 
 /38
-I've removed the _.
+You have removed the _.
 
 /39
-I've dropped the _.
+You have dropped the _.
 
 /40
-I can't wear the _.
+You can't wear the _.
 
 /41
-I can't remove the _.
+You can't remove the _.
 
 /42
-I can't remove the _.  My hands are full.
+You can't remove the _.  Your hands are full.
 
 /43
-The _ weighs too much for me.
+The _ weighs too much for you.
 
 /44
 The _ is in the 
@@ -386,10 +391,10 @@ The _ isn't in the
 .
 
 /49
-I don't have the _.
+You don't have the _.
 
 /50
-I'm not wearing the _.
+You are not wearing the _.
 
 /51
 .
@@ -463,13 +468,33 @@ An acolyte of Sobek is here.
 /18
 Here you are, in Shedet, the last part of your journey...
 /19
-The acolyte says, 
+The acolyte says 
 /20
 "take this, enter the temple and find for yourself how..."
 /21
 "you appear not to be up to the task of becoming an apprentice priestes..."
 /22
 "I'm afraid your accent is too thick for me to understand."
+/23
+"hello" and smiles politely.
+/24
+The path is dusty and dry.
+/25
+"no one is permitted to enter the temple with their shoes on."
+/26
+As you step inside the temple dedicated to Sobek you feel the silence inside, your body relaxes and your mind refreshes with joy...
+/27
+On some engravings, Sobek appears next to other gods.
+/28
+You don't see anything remarkable about it.
+/29
+"everybody is required to observe strict standards of ritual purity in the sacred space."
+/30
+You remove your sandals, leaving your dusty feet exposed.
+/31
+Carefully you wash your feet.
+/32
+The acolyte looks tired and sweaty.
 ;------------------------------------------------------------------------------
 /OTX    ;Object Texts
 /0
@@ -496,20 +521,20 @@ The Priestess of Sobek
 You are Nubia the apprentice, ready to embark on the journey of becoming a priestess of the cult of Sobek.
 
 /1
-The entrance to the local temple of Sobek features large stone pillars, which support a roof of huge stone slabs. A path to the east leads to to the riverside.
+The entrance to the local temple of Sobek, features large stone pillars, which support a roof of huge stone slabs. A path to the east leads to to the riverside.
 /2
 This is an east-west path that wanders between the Fayoum oasis and the temple surroundings.
 /3
 The Oasis, where sand dunes suddenly turn into lush palm groves. A lake extends into the background, in the middle of the otherwise desolate desert. A dusty path leads to the west to a temple.
 /4
-As you step inside the temple dedicated to Sobek you feel the silence inside, your body relaxes and your mind refreshes with joy.
+The interior of the temple, decorated with stone engravings, is where sacred rituals are performed to honor the gods.
 /5
 This is the hidden room, where the most precious and sacred artifacts of the cult are preserved. There is a stone altar in the middle of the room, dedicated to the god Sobek.
 ;------------------------------------------------------------------------------
 /CON    ;Connections
 /0
 /1
-S 4
+;S 4
 W 2
 /2
 E 1
@@ -627,6 +652,11 @@ _	_ 	SAME	66	38	; Actually always on location 1
 		NEWLINE
 		MESSAGE	17
 
+; dirty feet
+
+_	_	AT	2		; path between temple and oasis
+		SET	68
+
 ;------------------------------------------------------------------------------
 /PRO 4 ; Old process 2
 ;------------------------------------------------------------------------------
@@ -642,11 +672,21 @@ EXAMI	_	PROCESS	7
 
 FILL	JAR	PROCESS	8
 
+
 SAY	ACOLY	SAME	66	38
 		PROCESS	9
 		DONE
 
 SAY	_	MESSAGE	15
+		DONE
+
+ENTER	TEMPL	AT	1		; at the entrance
+		PROCESS	10		; enter the temple
+
+WASH	FEET	CARRIED	2		; do we have the jar full of water
+		CLEAR	68		; now they are clean
+		SWAP	2	3	; the jar is empty
+		MESSAGE	31		; you carefully wash your feet
 		DONE
 
 WORSH	SOBEK	AT	5
@@ -664,6 +704,12 @@ GET     _       AUTOG
 DROP    ALL     DOALL   CARRIED
 DROP    _       AUTOD
                 DONE
+
+REMOVE	SANDA	WORN	6
+		NOTZERO	68		; dirty feet
+		MESSAGE	30		; you remove your sandals, leaving your dusty feet exposed
+		PLACE	6	254
+		DONE
 
 REMOVE  ALL     DOALL   WORN
 REMOVE  _       AUTOR
@@ -725,6 +771,14 @@ _       _       RESET                   ; Set objects to start location & Flag 1
 ;------------------------------------------------------------------------------
 /PRO 7	; Examine process
 
+EXAMI	ACOLY	AT	1
+		MESSAGE	32
+		DONE
+
+EXAMI	ENGRA	AT	4
+		MESSAGE	27
+		DONE
+
 EXAMI	GOWN	PRESENT	4
 		MESSAGE	2
 		DONE
@@ -745,6 +799,13 @@ EXAMI	OASIS	AT	3
 
 EXAMI	SANDA	PRESENT	6
 		MESSAGE	12
+		DONE
+
+EXAMI	PATH	AT	2
+		MESSAGE	24
+		DONE
+
+EXAMI	_	MESSAGE	28
 		DONE
 ;------------------------------------------------------------------------------
 /PRO 8	; Fill jar
@@ -781,9 +842,15 @@ _	_	PARSE	1
 		MESSAGE	14
 		DONE
 
-HELLO	_	MESSAGE	16	; one of us?
+HELLO	_	ISAT	5	252
+		MESSAGE	16	; the acolyte bows and says .. one of us?
 		SET	67
 		DONE
+
+HELLO	_	MES	19	; already given statuette
+		MESSAGE	23
+		DONE
+
 
 YES	_	NOTZERO	67
 		MES	19	; the acolyte says...
@@ -803,3 +870,25 @@ _	_	NOTZERO	67
 _	_	MES	19	; the acolyte says...
 		MESSAGE	22
 		DONE
+
+;------------------------------------------------------------------------------
+/PRO 10	; Enter temple
+
+_	_	WORN	6
+		MES	19
+		MESSAGE	25
+		DONE
+
+_	_	NOTZERO	68	; dirty feet?
+		MES	19
+		MESSAGE	29
+		DONE
+
+_	_	ZERO	68	; clean feet?
+		NEWLINE
+		MESSAGE	26
+		NEWLINE
+		PAUSE	150
+		SET	69
+		GOTO	4	; velkommen ind!
+		RESTART
