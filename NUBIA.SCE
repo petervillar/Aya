@@ -195,6 +195,7 @@ PATH	57	noun
 TEMPL	58	noun
 ENGRA	59	noun
 FEET	60	noun
+ALTAR	61	noun
 ;                       Verbs
 GET     20      verb
 TAKE    20      verb
@@ -222,10 +223,14 @@ EXAMI	32	verb
 WORSH	33	verb		; worship
 FILL	34	verb
 WASH	35	verb
+CLEAN	35	verb
 POUR	35	verb
 HELLO	36	verb
 YES	37	verb
 ENTER	38	verb
+EXIT	39	verb
+SLEEP	40	verb
+EAT	41	verb
 ;                               Adjectives
 SMALL   2       adjective
 BIG     3       adjective
@@ -312,7 +317,7 @@ Would you like another go?
 Ok.
 
 /16
-Press any key to continue.
+;Press any key to continue.
 
 /17 ;*You have taken
 /18 ;*\sturn
@@ -495,6 +500,30 @@ You remove your sandals, leaving your dusty feet exposed.
 Carefully you wash your feet.
 /32
 The acolyte looks tired and sweaty.
+/33
+You set yourself to sleep on the floor, and you fall asleep almost immediately...
+/34
+Shortly after you wake up, half remembering a particular intense and confusing dream about having God inside..
+/35
+You eat the little statuette, which somehow has turned edible.
+/36
+You would rather not eat that.
+/37
+A previously small, unseen room can be reached going east.
+/38
+It is made from one piece of stone, and is probably used for worshipping ceremonies.
+/39
+You consider taking a short nap, but maybe not right now.
+/40
+Entrance to the temple
+/41
+On the path
+/42
+The oasis
+/43
+Inside the temple
+/44
+In the hidden room
 ;------------------------------------------------------------------------------
 /OTX    ;Object Texts
 /0
@@ -515,7 +544,7 @@ a pair of sandals
 /LTX    ;Location Texts
 /0
 
-The Priestess of Sobek
+        The Priestess of Sobek
 
 
 You are Nubia the apprentice, ready to embark on the journey of becoming a priestess of the cult of Sobek.
@@ -527,7 +556,7 @@ This is an east-west path that wanders between the Fayoum oasis and the temple s
 /3
 The Oasis, where sand dunes suddenly turn into lush palm groves. A lake extends into the background, in the middle of the otherwise desolate desert. A dusty path leads to the west to a temple.
 /4
-The interior of the temple, decorated with stone engravings, is where sacred rituals are performed to honor the gods.
+The interior of the temple, decorated with stone engravings, is where sacred rituals are performed to honor the gods. 
 /5
 This is the hidden room, where the most precious and sacred artifacts of the cult are preserved. There is a stone altar in the middle of the room, dedicated to the god Sobek.
 ;------------------------------------------------------------------------------
@@ -543,7 +572,6 @@ W 3
 E 2
 /4
 N 1
-E 5
 /5
 W 4
 ;------------------------------------------------------------------------------
@@ -576,11 +604,20 @@ _       _       WINDOW  0               ; Select graphics window
 ; _       _       PICTURE [Player]        ; If there is a picture, Load it
 ;                 DISPLAY [DarkF]         ; & Display it if not dark, else CLS
 
+_	_	WINDOW	3
+		CLS
+		PRINTAT	0 0
+		COPYFF	38	71
+		PLUS	71	39
+		MES	[71]
+		BACKAT
+		
 _       _       WINDOW  1
                 NOTZERO DarkF           ; Dark
                 SYSMESS 0
 
 _       _       ZERO    DarkF
+		CLS			; 
                 DESC    [Player]        ; Doesn't exit loop now
 
 _       _       PROCESS 3
@@ -643,8 +680,12 @@ _       _       SYSMESS 6               ; I didn't understand
 ; process tables 1 and 2 can now be anywhere or completely absent. Everything
 ; is implemented in the DAAD language itself.
 
-_       _       NEWLINE
-                ZERO    DarkF            ; Isn't dark
+_	_	AT	4
+		ISAT	5	252
+		MESSAGE	37		; small unseen door can be seen now
+
+_       _ 	NEWLINE
+		ZERO    DarkF           ; Isn't dark
                 LISTOBJ
 
 ; acolyte
@@ -683,6 +724,15 @@ SAY	_	MESSAGE	15
 ENTER	TEMPL	AT	1		; at the entrance
 		PROCESS	10		; enter the temple
 
+E	_	AT	4		; inside the temple
+		ISAT	5	252	; the statuette has been eaten
+		GOTO	5		; then the room is visible
+		RESTART
+
+EXIT	_	AT	4
+		GOTO	1
+		RESTART
+
 WASH	FEET	CARRIED	2		; do we have the jar full of water
 		CLEAR	68		; now they are clean
 		SWAP	2	3	; the jar is empty
@@ -696,6 +746,29 @@ WORSH	SOBEK	AT	5
 		MESSAGE	4
 		NEWLINE
 		END
+
+SLEEP	_	AT	4
+		ZERO	70		; not slept yet
+		NEWLINE
+		MESSAGE	33		; you fall sleep ..
+		PAUSE	150
+		NEWLINE
+		MESSAGE	34		; you have images of having god inside..
+		SET	70
+		DONE
+
+SLEEP	_	MESSAGE	39
+		DONE
+		
+EAT	STATU	CARRIED	5		; carrying the statue
+		AT	4		; at the temple
+		NOTZERO	70
+		DESTROY	5
+		MESSAGE	35
+		DONE
+
+EAT	_	MESSAGE	36
+		DONE
 
 GET     ALL     DOALL   HERE
 GET     _       AUTOG
@@ -743,7 +816,7 @@ LOOK    _       RESTART
 /PRO 6 ; Initialise the DAAD system
 
 _       _       WINDOW  1               ; Windows are random
-_       _       WINAT   0       0       ; set 14 0 for split screen with GFX 
+_       _       WINAT   2       0       ; set 14 0 for split screen with GFX 
                 WINSIZE 25      127     ; Maximum window
                 CLS
                 DESC    0               ; Introduction
@@ -767,9 +840,14 @@ _       _       RESET                   ; Set objects to start location & Flag 1
 		LET	66	1	; location of the acolyte
 		MESSAGE	18
 		NEWLINE
+		PAUSE	150
                 GOTO    2               ; Main game
 ;------------------------------------------------------------------------------
 /PRO 7	; Examine process
+
+EXAMI	ALTAR	AT	5
+		MESSAGE	38
+		DONE
 
 EXAMI	ACOLY	AT	1
 		MESSAGE	32
@@ -886,9 +964,15 @@ _	_	NOTZERO	68	; dirty feet?
 
 _	_	ZERO	68	; clean feet?
 		NEWLINE
+		ZERO	69	; first time we enter?
 		MESSAGE	26
 		NEWLINE
-		PAUSE	150
+		PAUSE	200
 		SET	69
 		GOTO	4	; velkommen ind!
 		RESTART
+
+_	_	ZERO	68	; clean feet?
+		GOTO	4
+		RESTART
+		
