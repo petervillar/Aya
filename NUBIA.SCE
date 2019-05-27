@@ -226,11 +226,13 @@ WASH	35	verb
 CLEAN	35	verb
 POUR	35	verb
 HELLO	36	verb
+HELP	36	verb
 YES	37	verb
 ENTER	38	verb
 EXIT	39	verb
 SLEEP	40	verb
 EAT	41	verb
+ABOUT	42	verb
 ;                               Adjectives
 SMALL   2       adjective
 BIG     3       adjective
@@ -471,7 +473,7 @@ The acolyte bows and replies, "looking to become one of us?"
 /17
 An acolyte of Sobek is here.
 /18
-Here you are, in Shedet, the last part of your journey...
+After a long and dangerous journey you finally arrive to your destination, Shedet...
 /19
 The acolyte says 
 /20
@@ -503,13 +505,13 @@ The acolyte looks tired and sweaty.
 /33
 You set yourself to sleep on the floor, and you fall asleep almost immediately...
 /34
-Shortly after you wake up, half remembering a particular intense and confusing dream about having God inside..
+Shortly after you wake up, half remembering a particular intense and confusing dream about having God inside.
 /35
 You eat the little statuette, which somehow has turned edible.
 /36
 You would rather not eat that.
 /37
-A previously small, unseen room can be reached going east.
+A previously small, unseen room,can be reached going east.
 /38
 It is made from one piece of stone, and is probably used for worshipping ceremonies.
 /39
@@ -524,6 +526,9 @@ The oasis
 Inside the temple
 /44
 In the hidden room
+/45
+Written by Peter Villar - May 2019
+DAAD version 2.42
 ;------------------------------------------------------------------------------
 /OTX    ;Object Texts
 /0
@@ -547,10 +552,11 @@ a pair of sandals
         The Priestess of Sobek
 
 
-You are Nubia the apprentice, ready to embark on the journey of becoming a priestess of the cult of Sobek.
+You are Nubia, daughter of a poor farmer's family, who has embarked on a journey to seek help from Sobek in this time of severe drought.
+
 
 /1
-The entrance to the local temple of Sobek, features large stone pillars, which support a roof of huge stone slabs. A path to the east leads to to the riverside.
+The entrance to the local temple of Sobek, features large stone pillars, which support a roof of huge stone slabs. A path to the wests leads to to the riverside.
 /2
 This is an east-west path that wanders between the Fayoum oasis and the temple surroundings.
 /3
@@ -812,14 +818,24 @@ RAMLO   _       RAMLOAD 255             ;Reload all flags
                 RESTART
 
 LOOK    _       RESTART
+
+ABOUT	_	MESSAGE	45
+		DONE
 ;------------------------------------------------------------------------------
 /PRO 6 ; Initialise the DAAD system
+
+_	_	WINDOW	3
+		CLS
 
 _       _       WINDOW  1               ; Windows are random
 _       _       WINAT   2       0       ; set 14 0 for split screen with GFX 
                 WINSIZE 25      127     ; Maximum window
                 CLS
                 DESC    0               ; Introduction
+		NEWLINE
+		MESSAGE	18		; Intro
+		NEWLINE
+		PAUSE	150
                 ANYKEY
                 CLS
                 CLEAR   255             ; Clear all flags
@@ -838,9 +854,6 @@ _       _       RESET                   ; Set objects to start location & Flag 1
                 SET     CPAdject
 		LET     53      64	; object lists printed as sentences.
 		LET	66	1	; location of the acolyte
-		MESSAGE	18
-		NEWLINE
-		PAUSE	150
                 GOTO    2               ; Main game
 ;------------------------------------------------------------------------------
 /PRO 7	; Examine process
