@@ -196,6 +196,7 @@ TEMPL	58	noun
 ENGRA	59	noun
 FEET	60	noun
 ALTAR	61	noun
+CROCO	62	noun
 ;                       Verbs
 GET     20      verb
 TAKE    20      verb
@@ -459,7 +460,7 @@ This is a relative calm area on this side of the oasis.
 /10
 A crocodile aggresively jumps, snaps at you, and begins pulling you into the water..
 /11
-*** You are dead ***
+Your attempt to save your family came sadly to an end.
 /12
 A pair of rawhide sandals, which have seen prolonged wear.
 /13
@@ -505,7 +506,7 @@ The acolyte looks tired and sweaty.
 /33
 You set yourself to sleep on the floor, and you fall asleep almost immediately...
 /34
-Shortly after you wake up, half remembering a particular intense and confusing dream about having God inside.
+Shortly after you wake up, half remembering a particular intense and confusing dream about having the crocodile god inside.
 /35
 You eat the little statuette, which somehow has turned edible.
 /36
@@ -529,6 +530,8 @@ In the hidden room
 /45
 Written by Peter Villar - May 2019
 DAAD version 2.42
+/46
+The waters of the Nile gently lap at the crocodile, as it waits motionless in the water.
 ;------------------------------------------------------------------------------
 /OTX    ;Object Texts
 /0
@@ -569,7 +572,7 @@ This is the hidden room, where the most precious and sacred artifacts of the cul
 /CON    ;Connections
 /0
 /1
-;S 4
+S 4
 W 2
 /2
 E 1
@@ -857,6 +860,10 @@ _       _       RESET                   ; Set objects to start location & Flag 1
                 GOTO    2               ; Main game
 ;------------------------------------------------------------------------------
 /PRO 7	; Examine process
+
+EXAMI	CROCO	AT	3
+		MESSAGE	@@
+		DONE
 
 EXAMI	ALTAR	AT	5
 		MESSAGE	38
