@@ -1,20 +1,9 @@
-; BLANK.SCE empty database for DAAD V2
-;
-; This database provides a way of adapting PAW & DAAD V1 sources to DAAD V2. 
-; Note that flags which were automatically decremented no longer do so.
-;
-; English language template, recreated by Stefan Vogt, Pond Soft [17-7-18].
-;
-;
 ;------------------------------------------------------------------------------
 ;
-; 'Everything is possible in this life ( but it all costs time and money! )'
-;                                                              Tim Gilberts
+; Nubia the Priestess
 ;
-;                                      'And also WE ALL have to work for it'
-;                                                            Andres Samudio
-;
-;                                                                   [8-6-89]
+; (C) Peter Villar
+; In Stockholm, at the end of May 2019
 ;
 ;------------------------------------------------------------------------------
 ;
@@ -227,13 +216,14 @@ WASH	35	verb
 CLEAN	35	verb
 POUR	35	verb
 HELLO	36	verb
-HELP	36	verb
 YES	37	verb
 ENTER	38	verb
 EXIT	39	verb
 SLEEP	40	verb
 EAT	41	verb
 ABOUT	42	verb
+KILL	43	verb
+HELP	44	verb
 ;                               Adjectives
 SMALL   2       adjective
 BIG     3       adjective
@@ -494,7 +484,7 @@ As you step inside the temple dedicated to Sobek you feel the silence inside, yo
 /27
 On some engravings, Sobek appears next to other gods.
 /28
-You don't see anything remarkable about it.
+It is a simple jar with pointed base and cylindrical neck..
 /29
 "everybody is required to observe strict standards of ritual purity in the sacred space."
 /30
@@ -528,10 +518,13 @@ Inside the temple
 /44
 In the hidden room
 /45
-Written by Peter Villar - May 2019
-DAAD version 2.42
+Written by Peter Villar with DAAD version 2.42
+
+Stockholm, at the end of May 2019.
 /46
-The waters of the Nile gently lap at the crocodile, as it waits motionless in the water.
+The waters of the Nile lap gently at the crocodile, as it waits motionless in the water.
+/47
+\/
 ;------------------------------------------------------------------------------
 /OTX    ;Object Texts
 /0
@@ -559,7 +552,7 @@ You are Nubia, daughter of a poor farmer's family, who has embarked on a journey
 
 
 /1
-The entrance to the local temple of Sobek, features large stone pillars, which support a roof of huge stone slabs. A path to the wests leads to to the riverside.
+The entrance to the local temple of Sobek features large stone pillars, which support a roof of huge stone slabs. A path to the wests leads to to the riverside.
 /2
 This is an east-west path that wanders between the Fayoum oasis and the temple surroundings.
 /3
@@ -619,8 +612,13 @@ _	_	WINDOW	3
 		COPYFF	38	71
 		PLUS	71	39
 		MES	[71]
+		PRINTAT	0 30
+		PRINT	72
+		MES	47		; "/"
+		DPRINT	73
 		BACKAT
-		
+		WINDOW	1
+
 _       _       WINDOW  1
                 NOTZERO DarkF           ; Dark
                 SYSMESS 0
@@ -678,6 +676,7 @@ _       _       SYSMESS 8
 
 ;------------------------------------------------------------------------------
 /PRO 2
+
 _       _       HASAT TIMEOUT
                 SYSMESS 35
                 DONE
@@ -709,8 +708,12 @@ _	_	AT	2		; path between temple and oasis
 
 ;------------------------------------------------------------------------------
 /PRO 4 ; Old process 2
+
+_	_	PLUS	73	1
+		
 ;------------------------------------------------------------------------------
 /PRO 5 ; Command decoder
+
 
 I       _       SYSMESS 9
                 LISTAT  CARRIED
@@ -723,7 +726,7 @@ EXAMI	_	PROCESS	7
 FILL	JAR	PROCESS	8
 
 
-SAY	ACOLY	SAME	66	38
+SAY	ACOLY	SAME	66	38	; Same place as the acolyte
 		PROCESS	9
 		DONE
 
@@ -756,18 +759,7 @@ WORSH	SOBEK	AT	5
 		NEWLINE
 		END
 
-SLEEP	_	AT	4
-		ZERO	70		; not slept yet
-		NEWLINE
-		MESSAGE	33		; you fall sleep ..
-		PAUSE	150
-		NEWLINE
-		MESSAGE	34		; you have images of having god inside..
-		SET	70
-		DONE
-
-SLEEP	_	MESSAGE	39
-		DONE
+SLEEP	_	PROCESS	11		; All things sleeping
 		
 EAT	STATU	CARRIED	5		; carrying the statue
 		AT	4		; at the temple
@@ -857,12 +849,21 @@ _       _       RESET                   ; Set objects to start location & Flag 1
                 SET     CPAdject
 		LET     53      64	; object lists printed as sentences.
 		LET	66	1	; location of the acolyte
+		LET	73	250
                 GOTO    2               ; Main game
 ;------------------------------------------------------------------------------
 /PRO 7	; Examine process
 
+EXAMI	JAR	PRESENT	3
+		MESSAGE	28
+		DONE
+
+EXAMI	JAR	PRESENT	2
+		MESSAGE	28
+		DONE
+
 EXAMI	CROCO	AT	3
-		MESSAGE	@@
+		MESSAGE	46
 		DONE
 
 EXAMI	ALTAR	AT	5
@@ -903,8 +904,6 @@ EXAMI	PATH	AT	2
 		MESSAGE	24
 		DONE
 
-EXAMI	_	MESSAGE	28
-		DONE
 ;------------------------------------------------------------------------------
 /PRO 8	; Fill jar
 
@@ -940,12 +939,12 @@ _	_	PARSE	1
 		MESSAGE	14
 		DONE
 
-HELLO	_	ISAT	5	252
+HELP	_	ISAT	5	252
 		MESSAGE	16	; the acolyte bows and says .. one of us?
 		SET	67
 		DONE
 
-HELLO	_	MES	19	; already given statuette
+HELP	_	MES	19	; already given statuette
 		MESSAGE	23
 		DONE
 
@@ -963,6 +962,10 @@ _	_	NOTZERO	67
 		MES	19	; the acolyte says...
 		MESSAGE	21	; you appear not be up to the task of becoming a priestess
 		SET	67
+		DONE
+
+HELLO	_	MES	19
+		MESSAGE	23
 		DONE
 
 _	_	MES	19	; the acolyte says...
@@ -995,4 +998,19 @@ _	_	ZERO	68	; clean feet?
 _	_	ZERO	68	; clean feet?
 		GOTO	4
 		RESTART
-		
+
+;------------------------------------------------------------------------------
+/PRO 11	; Sleep
+
+SLEEP	_	AT	4
+		ZERO	70		; not slept yet
+		NEWLINE
+		MESSAGE	33		; you fall sleep ..
+		PAUSE	150
+		NEWLINE
+		MESSAGE	34		; you have images of having god inside..
+		SET	70
+		DONE
+
+SLEEP	_	MESSAGE	39
+		DONE
