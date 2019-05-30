@@ -1,9 +1,9 @@
 ;------------------------------------------------------------------------------
 ;
-; Nubia the Priestess
+; Nubia the Priestess - Demo version
 ;
 ; (C) Peter Villar
-; In Stockholm, at the end of May 2019
+; Stockholm, at the end of May 2019
 ;
 ;------------------------------------------------------------------------------
 ;
@@ -171,6 +171,7 @@ LOT     20      noun
 EVERY   20      noun
 SOBEK	21	noun
 ACOLY	22	noun
+HEMED	22	noun
 ;
 LAMP	50	noun
 STATU	51	noun
@@ -180,12 +181,16 @@ WATER	54	noun
 LAKE	54	noun
 OASIS	55	noun
 SANDA	56	noun
+SHOES	56	noun
 PATH	57	noun
 TEMPL	58	noun
 ENGRA	59	noun
 FEET	60	noun
 ALTAR	61	noun
 CROCO	62	noun
+NAME	63	noun
+BECOM	64	noun
+WANT	64	noun
 ;                       Verbs
 GET     20      verb
 TAKE    20      verb
@@ -214,6 +219,7 @@ WORSH	33	verb		; worship
 FILL	34	verb
 WASH	35	verb
 CLEAN	35	verb
+BRUSH	36	verb
 POUR	35	verb
 HELLO	36	verb
 YES	37	verb
@@ -224,6 +230,8 @@ EAT	41	verb
 ABOUT	42	verb
 KILL	43	verb
 HELP	44	verb
+HOW	45	verb
+CAN	45	verb
 ;                               Adjectives
 SMALL   2       adjective
 BIG     3       adjective
@@ -433,9 +441,9 @@ It is a terracotta statuette in the shape of a crocodile.
 /2
 The gown is white and fairly plain.
 /3
-Sobek is pleased with your devotion and grants you his blessing. 
+Sobek is pleased with you playing this demo to the end and grants you his blessing. 
 /4
-Congratulations, you have become a priestess of the cult!
+Prepare to embark on a journey into the mystery surrounding the cult of Sobek!
 /5
 The jar is already full.
 /6
@@ -450,7 +458,7 @@ This is a relative calm area on this side of the oasis.
 /10
 A crocodile aggresively jumps, snaps at you, and begins pulling you into the water..
 /11
-Your attempt to save your family came sadly to an end.
+Your attempt to save your village came sadly to an end.
 /12
 A pair of rawhide sandals, which have seen prolonged wear.
 /13
@@ -460,7 +468,7 @@ The acolyte does not seem to understand you.
 /15
 Who are you talking to?
 /16
-The acolyte bows and replies, "looking to become one of us?" 
+"become one of us and pray to Sobek." 
 /17
 An acolyte of Sobek is here.
 /18
@@ -470,7 +478,7 @@ The acolyte says
 /20
 "take this, enter the temple and find for yourself how..."
 /21
-"you appear not to be up to the task of becoming an apprentice priestes..."
+A bit swollen and dusty.
 /22
 "I'm afraid your accent is too thick for me to understand."
 /23
@@ -484,7 +492,7 @@ As you step inside the temple dedicated to Sobek you feel the silence inside, yo
 /27
 On some engravings, Sobek appears next to other gods.
 /28
-It is a simple jar with pointed base and cylindrical neck..
+It is a simple jar with pointed base and cylindrical neck.
 /29
 "everybody is required to observe strict standards of ritual purity in the sacred space."
 /30
@@ -506,7 +514,7 @@ A previously small, unseen room,can be reached going east.
 /38
 It is made from one piece of stone, and is probably used for worshipping ceremonies.
 /39
-You consider taking a short nap, but maybe not right now.
+You are tired, but resist the urge to take a nap.
 /40
 Entrance to the temple
 /41
@@ -518,13 +526,21 @@ Inside the temple
 /44
 In the hidden room
 /45
-Written by Peter Villar with DAAD version 2.42
+Nubia the Priestess - Demo version
 
-Stockholm, at the end of May 2019.
+Written by Peter Villar with DAAD version 2.42
 /46
 The waters of the Nile lap gently at the crocodile, as it waits motionless in the water.
 /47
 \/
+/48
+"my name is Hemede."
+/49
+"I know your people are in distress."
+/50
+A bit swollen, but clean.
+/51
+You try in vain to shake the dust off your feet.
 ;------------------------------------------------------------------------------
 /OTX    ;Object Texts
 /0
@@ -588,7 +604,7 @@ W 4
 /5      252	1       _ _  _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _    STATU	_
 /6	WORN	1	_ Y  _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _	SANDA	_	
 ;------------------------------------------------------------------------------
-/PRO 0       ;Main Location Loop
+/PRO 0					; Main Location Loop
 
 _       _       AT      0               ; Starting game
                 PROCESS 6               ; then we need init sequence
@@ -606,18 +622,12 @@ _       _       WINDOW  0               ; Select graphics window
 ; _       _       PICTURE [Player]        ; If there is a picture, Load it
 ;                 DISPLAY [DarkF]         ; & Display it if not dark, else CLS
 
-_	_	WINDOW	3
-		CLS
+_	_	WINDOW	2
 		PRINTAT	0 0
+		CLS
 		COPYFF	38	71
 		PLUS	71	39
 		MES	[71]
-		PRINTAT	0 30
-		PRINT	72
-		MES	47		; "/"
-		DPRINT	73
-		BACKAT
-		WINDOW	1
 
 _       _       WINDOW  1
                 NOTZERO DarkF           ; Dark
@@ -627,7 +637,9 @@ _       _       ZERO    DarkF
 		CLS			; 
                 DESC    [Player]        ; Doesn't exit loop now
 
-_       _       PROCESS 3
+_	_	WINDOW	1
+
+_       _       PROCESS 3		; Old process 1
 
 ; Now we use Process 1 as the main code loop, a return from it is the end
 ; of the game
@@ -706,11 +718,33 @@ _	_ 	SAME	66	38	; Actually always on location 1
 _	_	AT	2		; path between temple and oasis
 		SET	68
 
+; end of the demo
+
+_	_	AT	5
+		NEWLINE
+		MESSAGE	3
+		NEWLINE
+		MESSAGE	4
+		NEWLINE
+		END
+
 ;------------------------------------------------------------------------------
 /PRO 4 ; Old process 2
 
-_	_	PLUS	73	1
-		
+_	_	WINDOW	2
+		PRINTAT	0 0
+#if SPE
+		PRINTAT	0 36
+#endif
+#if PC
+		PRINTAT	0 47
+#endif
+		PRINT	72
+		MES	47		; "/"
+		DPRINT	Turns
+
+_	_	WINDOW	1
+
 ;------------------------------------------------------------------------------
 /PRO 5 ; Command decoder
 
@@ -739,7 +773,10 @@ ENTER	TEMPL	AT	1		; at the entrance
 E	_	AT	4		; inside the temple
 		ISAT	5	252	; the statuette has been eaten
 		GOTO	5		; then the room is visible
+		PLUS	72	2	; deux points
+		GOTO	5
 		RESTART
+
 
 EXIT	_	AT	4
 		GOTO	1
@@ -749,15 +786,11 @@ WASH	FEET	CARRIED	2		; do we have the jar full of water
 		CLEAR	68		; now they are clean
 		SWAP	2	3	; the jar is empty
 		MESSAGE	31		; you carefully wash your feet
+		PLUS	72	2	; deux points
 		DONE
 
-WORSH	SOBEK	AT	5
-		NEWLINE
-		MESSAGE	3
-		NEWLINE
-		MESSAGE	4
-		NEWLINE
-		END
+WASH	FEET	MESSAGE	51		; without water, not enough
+		DONE
 
 SLEEP	_	PROCESS	11		; All things sleeping
 		
@@ -766,6 +799,7 @@ EAT	STATU	CARRIED	5		; carrying the statue
 		NOTZERO	70
 		DESTROY	5
 		MESSAGE	35
+		PLUS	72	2	; deux points
 		DONE
 
 EAT	_	MESSAGE	36
@@ -820,6 +854,8 @@ ABOUT	_	MESSAGE	45
 /PRO 6 ; Initialise the DAAD system
 
 _	_	WINDOW	3
+_	_	WINAT	0	0
+		WINSIZE	1	127	
 		CLS
 
 _       _       WINDOW  1               ; Windows are random
@@ -850,9 +886,17 @@ _       _       RESET                   ; Set objects to start location & Flag 1
 		LET     53      64	; object lists printed as sentences.
 		LET	66	1	; location of the acolyte
 		LET	73	250
+		LET	74	0
                 GOTO    2               ; Main game
 ;------------------------------------------------------------------------------
 /PRO 7	; Examine process
+
+EXAMI	FEET	NOTZERO	68		; dusty?
+		MESSAGE	21		; swollen and dusty
+		DONE
+
+EXAMI	FEET	MESSAGE	50		; swollen but clean
+		DONE
 
 EXAMI	JAR	PRESENT	3
 		MESSAGE	28
@@ -907,26 +951,27 @@ EXAMI	PATH	AT	2
 ;------------------------------------------------------------------------------
 /PRO 8	; Fill jar
 
-FILL    JAR     AT      3       ; at the oasis?
-                CARRIED 3       ; empty jar?
-                NOTCARR 5       ; not carrying the statue
+FILL    JAR     AT      3       	; at the oasis?
+                CARRIED 3       	; empty jar?
+                NOTCARR 5       	; not carrying the statue
 		NEWLINE
-                MESSAGE 10      ; the crocodile snaps
+                MESSAGE 10      	; the crocodile snaps
                 NEWLINE
-                MESSAGE 11      ; you are dead
+                MESSAGE 11      	; you are dead
                 NEWLINE
                 PAUSE   1000
                 END
 
-FILL    JAR     AT      3       ; oasis?
-                CARRIED 2       ; already filled?
-                MESSAGE 5       ; already filled
+FILL    JAR     AT      3       	; oasis?
+                CARRIED 2       	; already filled?
+                MESSAGE 5       	; already filled
                 DONE
 
 FILL    JAR     AT      3
                 CARRIED 3
                 MESSAGE 6
                 SWAP    3 2
+                PLUS    72      2       ; deux points
                 DONE
 
 FILL    JAR     NOTAT   3
@@ -939,33 +984,39 @@ _	_	PARSE	1
 		MESSAGE	14
 		DONE
 
-HELP	_	ISAT	5	252
-		MESSAGE	16	; the acolyte bows and says .. one of us?
-		SET	67
+HELP	_	ISAT	5	252	; only if the acolyte has not given the statuette
+		MES	19
+		MESSAGE	49		; the acolyte bows and says .. people in distress
+		LET	67	1
 		DONE
 
-HELP	_	MES	19	; already given statuette
+HOW	_	EQ	67	1	; second part of the dialogue
+		MES	19
+		MESSAGE	16
+		LET	67	2
+		DONE
+
+HELP	_	MES	19		; already given statuette
 		MESSAGE	23
 		DONE
 
 
-YES	_	NOTZERO	67
-		MES	19	; the acolyte says...
-		MESSAGE	20	; take this blah blah
+_	BECOM	NOTZERO	67
+		MES	19		; the acolyte says...
+		MESSAGE	20		; take this blah blah
 		CLEAR	67
 		CREATE	5
 		NEWLINE
 		GET	5
-		DONE
-
-_	_	NOTZERO	67
-		MES	19	; the acolyte says...
-		MESSAGE	21	; you appear not be up to the task of becoming a priestess
-		SET	67
+		PLUS	72	2	; deux points
 		DONE
 
 HELLO	_	MES	19
 		MESSAGE	23
+		DONE
+
+_	NAME	MES	19
+		MESSAGE	48
 		DONE
 
 _	_	MES	19	; the acolyte says...
@@ -985,14 +1036,15 @@ _	_	NOTZERO	68	; dirty feet?
 		MESSAGE	29
 		DONE
 
-_	_	ZERO	68	; clean feet?
+_	_	ZERO	68		; clean feet?
 		NEWLINE
-		ZERO	69	; first time we enter?
+		ZERO	69		; first time we enter?
 		MESSAGE	26
 		NEWLINE
 		PAUSE	200
 		SET	69
-		GOTO	4	; velkommen ind!
+		GOTO	4		; velkommen ind min ven!
+		PLUS	72	2	; deux points
 		RESTART
 
 _	_	ZERO	68	; clean feet?
@@ -1010,6 +1062,7 @@ SLEEP	_	AT	4
 		NEWLINE
 		MESSAGE	34		; you have images of having god inside..
 		SET	70
+		PLUS	72	2	; deux points
 		DONE
 
 SLEEP	_	MESSAGE	39
