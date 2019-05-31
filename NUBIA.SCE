@@ -178,19 +178,25 @@ STATU	51	noun
 JAR	52	noun
 GOWN	53	noun
 WATER	54	noun
-LAKE	54	noun
+RIVER	54	noun
+NILE	54	noun
 OASIS	55	noun
 SANDA	56	noun
 SHOES	56	noun
 PATH	57	noun
 TEMPL	58	noun
 ENGRA	59	noun
+RELIE	59	noun
 FEET	60	noun
 ALTAR	61	noun
 CROCO	62	noun
 NAME	63	noun
 BECOM	64	noun
 WANT	64	noun
+PILLA	65	noun
+COLUM	65	noun
+TEXT	66	noun
+TEXTS	66	noun
 ;                       Verbs
 GET     20      verb
 TAKE    20      verb
@@ -232,6 +238,7 @@ KILL	43	verb
 HELP	44	verb
 HOW	45	verb
 CAN	45	verb
+READ	46	verb
 ;                               Adjectives
 SMALL   2       adjective
 BIG     3       adjective
@@ -443,7 +450,7 @@ The gown is white and fairly plain.
 /3
 Sobek is pleased with you playing this demo to the end and grants you his blessing. 
 /4
-Prepare to embark on a journey into the mystery surrounding the cult of Sobek!
+Prepare to embark on a journey into the mystery surrounding the Cult of Sobek!
 /5
 The jar is already full.
 /6
@@ -451,10 +458,9 @@ Carefully you fill the jar with water.
 /7
 You are not close to any source of water right now.
 /8
-A menacing crocodile lies silently in wait, only its eyes above the water.
+You spot a menacing crocodile lying silently in wait, only its eyes above the water.
 /9
-This is a relative calm area on this side of the oasis.
-;Far away you can see some big palms in the middle of the otherwise desolate desert.
+This is a relative calm area on this side of the Nile.
 /10
 A crocodile aggresively jumps, snaps at you, and begins pulling you into the water..
 /11
@@ -462,7 +468,7 @@ Your attempt to save your village came sadly to an end.
 /12
 A pair of rawhide sandals, which have seen prolonged wear.
 /13
-The lake provides fresh water supply to the area. 
+The river provides a fresh water supply to the area. 
 /14
 The acolyte does not seem to understand you.
 /15
@@ -472,11 +478,11 @@ Who are you talking to?
 /17
 An acolyte of Sobek is here.
 /18
-After a long and dangerous journey you finally arrive to your destination, Shedet...
+They depict scenes of Sobek, Horus and Thoth.
 /19
 The acolyte says 
 /20
-"take this, enter the temple and find for yourself how..."
+"take this, enter the temple and find for yourself how.."
 /21
 A bit swollen and dusty.
 /22
@@ -488,9 +494,9 @@ The path is dusty and dry.
 /25
 "no one is permitted to enter the temple with their shoes on."
 /26
-As you step inside the temple dedicated to Sobek you feel the silence inside, your body relaxes and your mind refreshes with joy...
+As you step inside the temple you feel the silence inside, your body relaxes and your mind refreshes with joy..
 /27
-On some engravings, Sobek appears next to other gods.
+;On some engravings, Sobek appears next to ;other gods.
 /28
 It is a simple jar with pointed base and cylindrical neck.
 /29
@@ -504,13 +510,13 @@ The acolyte looks tired and sweaty.
 /33
 You set yourself to sleep on the floor, and you fall asleep almost immediately...
 /34
-Shortly after you wake up, half remembering a particular intense and confusing dream about having the crocodile god inside.
+Shortly after you wake up, half remembering a particular intense and confusing dream about having God inside.
 /35
 You eat the little statuette, which somehow has turned edible.
 /36
 You would rather not eat that.
 /37
-A previously small, unseen room,can be reached going east.
+A previously small, unseen room, can be reached by going east.
 /38
 It is made from one piece of stone, and is probably used for worshipping ceremonies.
 /39
@@ -520,7 +526,7 @@ Entrance to the temple
 /41
 On the path
 /42
-The oasis
+The Nile
 /43
 Inside the temple
 /44
@@ -541,6 +547,16 @@ The waters of the Nile lap gently at the crocodile, as it waits motionless in th
 A bit swollen, but clean.
 /51
 You try in vain to shake the dust off your feet.
+/52
+The pillars are decorated with bands of texts and Ankh symbols.
+/53
+It is a double temple dedicated to Sobek, the crocodile god and Horus, the falcon-headed god.
+/54
+A terracotta oil lamp, with a hollow handle.
+/55
+You have trouble deciphering their meaning. One of them seems to be about the hope that a god would appear in a dream and provide aid.
+/56
+They are written in an unusual hieroglyphic style.
 ;------------------------------------------------------------------------------
 /OTX    ;Object Texts
 /0
@@ -564,17 +580,19 @@ a pair of sandals
         The Priestess of Sobek
 
 
+
 You are Nubia, daughter of a poor farmer's family, who has embarked on a journey to seek help from Sobek in this time of severe drought.
 
 
+After a long and dangerous journey you finally arrive to your destination, Aswan.
 /1
-The entrance to the local temple of Sobek features large stone pillars, which support a roof of huge stone slabs. A path to the wests leads to to the riverside.
+The entrance to the temple of Kom Ombo features large stone pillars, which support a roof of huge stone slabs. A path to the west descends to the river.
 /2
-This is an east-west path that wanders between the Fayoum oasis and the temple surroundings.
+This is an east-west path that wanders between the Nile river and the temple surroundings.
 /3
-The Oasis, where sand dunes suddenly turn into lush palm groves. A lake extends into the background, in the middle of the otherwise desolate desert. A dusty path leads to the west to a temple.
+The river extends into the background, in the middle of the otherwise desolate desert. A dusty path leads to the west to a temple.
 /4
-The interior of the temple, decorated with stone engravings, is where sacred rituals are performed to honor the gods. 
+The interior of the temple is decorated with texts and reliefs, which refer to cultic liturgies.
 /5
 This is the hidden room, where the most precious and sacred artifacts of the cult are preserved. There is a stone altar in the middle of the room, dedicated to the god Sobek.
 ;------------------------------------------------------------------------------
@@ -702,7 +720,8 @@ _       _       SYSMESS 6               ; I didn't understand
 
 _	_	AT	4
 		ISAT	5	252
-		MESSAGE	37		; small unseen door can be seen now
+		SPACE
+		MES	37		; small unseen door can be seen now
 
 _       _ 	NEWLINE
 		ZERO    DarkF           ; Isn't dark
@@ -805,6 +824,10 @@ EAT	STATU	CARRIED	5		; carrying the statue
 EAT	_	MESSAGE	36
 		DONE
 
+READ	TEXTS	AT	4		; inside the temple?
+		MESSAGE	55		; clue about sleeping
+		DONE
+
 GET     ALL     DOALL   HERE
 GET     _       AUTOG
                 DONE
@@ -864,8 +887,6 @@ _       _       WINAT   2       0       ; set 14 0 for split screen with GFX
                 CLS
                 DESC    0               ; Introduction
 		NEWLINE
-		MESSAGE	18		; Intro
-		NEWLINE
 		PAUSE	150
                 ANYKEY
                 CLS
@@ -887,9 +908,34 @@ _       _       RESET                   ; Set objects to start location & Flag 1
 		LET	66	1	; location of the acolyte
 		LET	73	250
 		LET	74	0
+		LET	Turns	95
                 GOTO    2               ; Main game
 ;------------------------------------------------------------------------------
 /PRO 7	; Examine process
+
+EXAMI	TEXTS	AT	4
+		MESSAGE	56		; written in unusual hieroglyphic style
+		DONE
+
+EXAMI	LAMP	PRESENT	0		; same description actually
+		MESSAGE	54
+		DONE
+
+EXAMI	LAMP	PRESENT	1		; same description actually
+		MESSAGE	54
+		DONE
+
+EXAMI	TEMPLE	AT	1
+		MESSAGE	53		; short description, Sobek's side of the temple
+		DONE
+
+EXAMI	PILLA	AT	1
+		MESSAGE	52		; texts and ankhs
+		DONE
+
+EXAMI	RELIE	AT	4		; shall give the clue about sleeping
+		MESSAGE	18
+		DONE
 
 EXAMI	FEET	NOTZERO	68		; dusty?
 		MESSAGE	21		; swollen and dusty
@@ -918,10 +964,6 @@ EXAMI	ACOLY	AT	1
 		MESSAGE	32
 		DONE
 
-EXAMI	ENGRA	AT	4
-		MESSAGE	27
-		DONE
-
 EXAMI	GOWN	PRESENT	4
 		MESSAGE	2
 		DONE
@@ -930,7 +972,7 @@ EXAMI	STATU	PRESENT	5
 		MESSAGE	1
 		DONE
 
-EXAMI	LAKE	AT	3
+EXAMI	RIVER	AT	3
 		ZERO	65
 		MES	13
 		MESSAGE	8
@@ -984,15 +1026,17 @@ _	_	PARSE	1
 		MESSAGE	14
 		DONE
 
-HELP	_	ISAT	5	252	; only if the acolyte has not given the statuette
+HELP	_	ZERO	67		; first time
+		ISAT	5	252	; only if the acolyte has not given the statuette
 		MES	19
 		MESSAGE	49		; the acolyte bows and says .. people in distress
 		LET	67	1
 		DONE
 
-HOW	_	EQ	67	1	; second part of the dialogue
+HELP	_	ISAT	5	252
+		EQ	67	1	; second part of the dialogue
 		MES	19
-		MESSAGE	16
+		MESSAGE	16		; "become one of us and pray to Sobek."
 		LET	67	2
 		DONE
 
@@ -1000,8 +1044,7 @@ HELP	_	MES	19		; already given statuette
 		MESSAGE	23
 		DONE
 
-
-_	BECOM	NOTZERO	67
+_	SOBEK	NOTZERO	67
 		MES	19		; the acolyte says...
 		MESSAGE	20		; take this blah blah
 		CLEAR	67
