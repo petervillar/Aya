@@ -197,6 +197,7 @@ PILLA	65	noun
 COLUM	65	noun
 TEXT	66	noun
 TEXTS	66	noun
+SYMBO	66	noun
 ;                       Verbs
 GET     20      verb
 TAKE    20      verb
@@ -232,13 +233,17 @@ YES	37	verb
 ENTER	38	verb
 EXIT	39	verb
 SLEEP	40	verb
+DREAM	40	verb
 EAT	41	verb
+SWALL	41	verb
 ABOUT	42	verb
 KILL	43	verb
 HELP	44	verb
 HOW	45	verb
 CAN	45	verb
 READ	46	verb
+SWIM	47	verb
+PRAY	48	verb
 ;                               Adjectives
 SMALL   2       adjective
 BIG     3       adjective
@@ -474,7 +479,7 @@ The acolyte does not seem to understand you.
 /15
 Who are you talking to?
 /16
-"become one of us and pray to Sobek." 
+"you must become one of us and pray to Sobek." 
 /17
 An acolyte of Sobek is here.
 /18
@@ -482,11 +487,11 @@ They depict scenes of Sobek, Horus and Thoth.
 /19
 The acolyte says 
 /20
-"take this, enter the temple and find for yourself how.."
+"take this, enter the temple and find for yourself what needs to be done.."
 /21
 A bit swollen and dusty.
 /22
-"I'm afraid your accent is too thick for me to understand."
+"I am afraid I do not understand you."
 /23
 "hello" and smiles politely.
 /24
@@ -494,9 +499,9 @@ The path is dusty and dry.
 /25
 "no one is permitted to enter the temple with their shoes on."
 /26
-As you step inside the temple you feel the silence inside, your body relaxes and your mind refreshes with joy..
+As you step inside the temple your body relaxes and your mind refreshes with joy..
 /27
-;On some engravings, Sobek appears next to ;other gods.
+;On some engravings, Sobek appears next to other gods.
 /28
 It is a simple jar with pointed base and cylindrical neck.
 /29
@@ -508,9 +513,9 @@ Carefully you wash your feet.
 /32
 The acolyte looks tired and sweaty.
 /33
-You set yourself to sleep on the floor, and you fall asleep almost immediately...
+You set yourself to sleep on the floor, and you fall asleep almost immediately..
 /34
-Shortly after you wake up, half remembering a particular intense and confusing dream about having God inside.
+Shortly after you wake up, half remembering a particular intense and confusing dream about having a deity inside.
 /35
 You eat the little statuette, which somehow has turned edible.
 /36
@@ -554,9 +559,17 @@ It is a double temple dedicated to Sobek, the crocodile god and Horus, the falco
 /54
 A terracotta oil lamp, with a hollow handle.
 /55
-You have trouble deciphering their meaning. One of them seems to be about the hope that a god would appear in a dream and provide aid.
+You have trouble deciphering their meaning.
 /56
 They are written in an unusual hieroglyphic style.
+/57
+One of them seems to be about the hope that a god would appear in a dream and provide aid.
+/58
+You swim in the Nile and feel refreshed.
+/59
+You seem to be in a sort of trance state, and do not wish to leave.
+/60
+You do not see anything remarkable.
 ;------------------------------------------------------------------------------
 /OTX    ;Object Texts
 /0
@@ -581,7 +594,7 @@ a pair of sandals
 
 
 
-You are Nubia, daughter of a poor farmer's family, who has embarked on a journey to seek help from Sobek in this time of severe drought.
+You are Nubia, a poor farmer who has embarked on a journey to seek help from Sobek, the deity of the ancient city of Kom Ombo, to save your village in this time of severe drought.
 
 
 After a long and dangerous journey you finally arrive to your destination, Aswan.
@@ -607,7 +620,7 @@ W 3
 /3
 E 2
 /4
-N 1
+;N 1
 /5
 W 4
 ;------------------------------------------------------------------------------
@@ -718,15 +731,22 @@ _       _       SYSMESS 6               ; I didn't understand
 ; process tables 1 and 2 can now be anywhere or completely absent. Everything
 ; is implemented in the DAAD language itself.
 
+_	_	NEWLINE
+
+; small unseen door
+
 _	_	AT	4
 		ISAT	5	252
-		SPACE
-		MES	37		; small unseen door can be seen now
+		NEWLINE
+		MESSAGE	37		; small unseen door can be seen now
 
-_       _ 	NEWLINE
-		ZERO    DarkF           ; Isn't dark
-                LISTOBJ
+; crocodile
 
+_	_	AT	3		; by the Nile
+		NOTZERO	72		; not examined water
+		NEWLINE
+		MESSAGE	8		; you spot a crocodile
+		
 ; acolyte
 _	_ 	SAME	66	38	; Actually always on location 1
 		NEWLINE
@@ -747,6 +767,12 @@ _	_	AT	5
 		NEWLINE
 		END
 
+; list objects 
+
+;_       _ 	NEWLINE
+_       _ 	ZERO    DarkF           ; Isn't dark
+                LISTOBJ
+
 ;------------------------------------------------------------------------------
 /PRO 4 ; Old process 2
 
@@ -758,7 +784,7 @@ _	_	WINDOW	2
 #if PC
 		PRINTAT	0 47
 #endif
-		PRINT	72
+		PRINT	Score		; Traditionally flag 30
 		MES	47		; "/"
 		DPRINT	Turns
 
@@ -792,20 +818,24 @@ ENTER	TEMPL	AT	1		; at the entrance
 E	_	AT	4		; inside the temple
 		ISAT	5	252	; the statuette has been eaten
 		GOTO	5		; then the room is visible
-		PLUS	72	2	; deux points
+		PLUS	Score	2	; deux points
 		GOTO	5
 		RESTART
 
-
 EXIT	_	AT	4
+		ISNOTAT	5	252	; do not leave if the statue has been swallowed
 		GOTO	1
 		RESTART
+
+EXIT	_	AT	4
+		MESSAGE	59		; you are in trance and do not wish to leave
+		DONE
 
 WASH	FEET	CARRIED	2		; do we have the jar full of water
 		CLEAR	68		; now they are clean
 		SWAP	2	3	; the jar is empty
 		MESSAGE	31		; you carefully wash your feet
-		PLUS	72	2	; deux points
+		PLUS	Score	2	; deux points
 		DONE
 
 WASH	FEET	MESSAGE	51		; without water, not enough
@@ -815,18 +845,38 @@ SLEEP	_	PROCESS	11		; All things sleeping
 		
 EAT	STATU	CARRIED	5		; carrying the statue
 		AT	4		; at the temple
-		NOTZERO	70
+		NOTZERO	70		; we've had the dream
 		DESTROY	5
 		MESSAGE	35
-		PLUS	72	2	; deux points
+		PLUS	Score	2	; deux points
 		DONE
 
-EAT	_	MESSAGE	36
-		DONE
+;EAT	_	MESSAGE	36
+;		DONE
 
 READ	TEXTS	AT	4		; inside the temple?
-		MESSAGE	55		; clue about sleeping
+		MES	55		; trouble deciphering
+		SPACE
+		MESSAGE	57		; clue about sleeping
 		DONE
+
+READ	TEXTS	AT	1		; inside the temple?
+		MESSAGE	55		; trouble deciphering
+		DONE
+
+SWIM	_	AT	3		; river bank
+		CARRIED	5		; carrying the statuette
+		MESSAGE	58		; you swim
+		DONE
+
+SWIM	_	AT	3		;
+                NEWLINE
+                MESSAGE 10              ; the crocodile snaps
+                NEWLINE
+                MESSAGE 11              ; you are dead
+                NEWLINE
+                PAUSE   1000
+                END
 
 GET     ALL     DOALL   HERE
 GET     _       AUTOG
@@ -887,8 +937,8 @@ _       _       WINAT   2       0       ; set 14 0 for split screen with GFX
                 CLS
                 DESC    0               ; Introduction
 		NEWLINE
-		PAUSE	150
-                ANYKEY
+;		PAUSE	50000
+		ANYKEY
                 CLS
                 CLEAR   255             ; Clear all flags
 
@@ -906,14 +956,17 @@ _       _       RESET                   ; Set objects to start location & Flag 1
                 SET     CPAdject
 		LET     53      64	; object lists printed as sentences.
 		LET	66	1	; location of the acolyte
-		LET	73	250
-		LET	74	0
-		LET	Turns	95
+;		LET	73	250
+;		LET	74	0
                 GOTO    2               ; Main game
 ;------------------------------------------------------------------------------
 /PRO 7	; Examine process
 
 EXAMI	TEXTS	AT	4
+		MESSAGE	56		; written in unusual hieroglyphic style
+		DONE
+
+EXAMI	TEXTS	AT	1
 		MESSAGE	56		; written in unusual hieroglyphic style
 		DONE
 
@@ -973,9 +1026,10 @@ EXAMI	STATU	PRESENT	5
 		DONE
 
 EXAMI	RIVER	AT	3
-		ZERO	65
-		MES	13
-		MESSAGE	8
+		MESSAGE	13		; The river provides a fresh water supply to the area.
+		NEWLINE
+		MESSAGE	8		; you spot a crocodile
+		SET	72		; so the crocodile is described when in location 3
 		DONE
 
 EXAMI	OASIS	AT	3
@@ -988,6 +1042,9 @@ EXAMI	SANDA	PRESENT	6
 
 EXAMI	PATH	AT	2
 		MESSAGE	24
+		DONE
+
+EXAMI	_	MESSAGE	60		; default answer - nothing remarkable
 		DONE
 
 ;------------------------------------------------------------------------------
@@ -1013,7 +1070,7 @@ FILL    JAR     AT      3
                 CARRIED 3
                 MESSAGE 6
                 SWAP    3 2
-                PLUS    72      2       ; deux points
+                PLUS    Score      2       ; deux points
                 DONE
 
 FILL    JAR     NOTAT   3
@@ -1026,32 +1083,21 @@ _	_	PARSE	1
 		MESSAGE	14
 		DONE
 
-HELP	_	ZERO	67		; first time
-		ISAT	5	252	; only if the acolyte has not given the statuette
-		MES	19
-		MESSAGE	49		; the acolyte bows and says .. people in distress
-		LET	67	1
+HELP	_	MES	19
+		MESSAGE	16		; "you must become one of us and pray to Sobek."
 		DONE
 
-HELP	_	ISAT	5	252
-		EQ	67	1	; second part of the dialogue
-		MES	19
-		MESSAGE	16		; "become one of us and pray to Sobek."
-		LET	67	2
-		DONE
+PRAY	_	LET	34	21	; convert temple to sobek
+_	TEMPLE	LET	34	21	; convert temple to sobek
 
-HELP	_	MES	19		; already given statuette
-		MESSAGE	23
-		DONE
-
-_	SOBEK	NOTZERO	67
+_	SOBEK	ISAT	5	252
 		MES	19		; the acolyte says...
 		MESSAGE	20		; take this blah blah
-		CLEAR	67
 		CREATE	5
+		CLEAR	67
 		NEWLINE
 		GET	5
-		PLUS	72	2	; deux points
+		PLUS	Score	2	; deux points
 		DONE
 
 HELLO	_	MES	19
@@ -1063,7 +1109,7 @@ _	NAME	MES	19
 		DONE
 
 _	_	MES	19	; the acolyte says...
-		MESSAGE	22
+		MESSAGE	22	; "I'm afraid your accent is too thick for me to understand."
 		DONE
 
 ;------------------------------------------------------------------------------
@@ -1084,10 +1130,10 @@ _	_	ZERO	68		; clean feet?
 		ZERO	69		; first time we enter?
 		MESSAGE	26
 		NEWLINE
-		PAUSE	200
+		PAUSE	255
 		SET	69
 		GOTO	4		; velkommen ind min ven!
-		PLUS	72	2	; deux points
+		PLUS	Score	2	; deux points
 		RESTART
 
 _	_	ZERO	68	; clean feet?
@@ -1105,7 +1151,7 @@ SLEEP	_	AT	4
 		NEWLINE
 		MESSAGE	34		; you have images of having god inside..
 		SET	70
-		PLUS	72	2	; deux points
+		PLUS	Score	2	; deux points
 		DONE
 
 SLEEP	_	MESSAGE	39
