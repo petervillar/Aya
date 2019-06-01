@@ -612,7 +612,6 @@ This is the hidden room, where the most precious and sacred artifacts of the cul
 /CON    ;Connections
 /0
 /1
-S 4
 W 2
 /2
 E 1
@@ -620,7 +619,6 @@ W 3
 /3
 E 2
 /4
-;N 1
 /5
 W 4
 ;------------------------------------------------------------------------------
@@ -780,6 +778,9 @@ _	_	WINDOW	2
 		PRINTAT	0 0
 #if SPE
 		PRINTAT	0 36
+#endif
+#if CBM64
+		PRINTAT	0 35
 #endif
 #if PC
 		PRINTAT	0 47
