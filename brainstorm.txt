@@ -1,4 +1,8 @@
-- Nubia, young girl (forældreløs) lives small village, Nile's waters not growing so best solution is to try and pray to Sobek. Everbody in the village is worried, she talks to the village's headman and he mentions about travelling to Faiyum, join the cult of the crocodile and pray for the fertility of the land.
+- Aya, young girl (forældreløs) lives small village, Nile's waters not growing so best solution is to try and pray to Sobek. Everbody in the village is worried, she talks to the village's headman and he mentions about travelling to Faiyum, join the cult of the crocodile and pray for the fertility of the land.
+-Epoch: New Kingdom	1550–1069 BC, 
+-Location: Shedet (ancient name), Faiyum, then Krokodilópolis, and later Arsinoë
+-Location: Quarun lake
+-Location: Quarun palace
 
 (Sobek was a god who brought fertility to the land, so why not. It is believed that Sobek created the nile from his sweat and he controls the waters and the fertility of the soil https://mythology.net/egyptian/egyptian-gods/sobek/)
 
@@ -15,9 +19,8 @@
     * fresh reeds -> outside village
     
 - So basically it goes like this:
-  : Nubia asks headman, gets a written letter (papyrus) so she can join a caravan once she travels a bit down the river
-  : she travels down the river (mends boat by cutting off the rotten parts and mending it with new reeds)
-  : shows letter, gets to join the caravan
   : cutscene: she joins the caravans of camels trudging across ocher sand dunes etc..
   : continue where the demo starts
+  : but this time she goes first to the Qarun Palace, there she has a dream
+  : then she has to go to Hawara and deal with a wizard, fight her or something. W
   : change the ending
