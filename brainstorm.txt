@@ -1,8 +1,9 @@
 - Aya, young girl (forældreløs) lives small village, Nile's waters not growing so best solution is to try and pray to Sobek. Everbody in the village is worried, she talks to the village's headman and he mentions about travelling to Faiyum, join the cult of the crocodile and pray for the fertility of the land.
 - Epoch: New Kingdom	1550–1069 BC, 
 - Location: Shedet (ancient name), Faiyum, then Krokodilópolis, and later Arsinoë
-- Location: Quarun lake
-- Location: Quarun palace
+- Location: Lake Moeris (from egyptian mer-wer (now Quarun lake)), ~19km from Shedet
+- Location: Hawara, ~8km from Shedet. Here lives Sobekneferu the Pharaoh. 
+- (*** next episode *** Location: Dja Temple (now Medinet Maadi Temple) ~23km from Shedet)
 
 (Sobek was a god who brought fertility to the land, so why not. It is believed that Sobek created the nile from his sweat and he controls the waters and the fertility of the soil https://mythology.net/egyptian/egyptian-gods/sobek/)
 
@@ -16,12 +17,13 @@
     * amulet (terracotta statuette in the shape of a crocodile) -> dørmand
     * jar -> floor
     * knife -> Nubia's hut
-    * fresh reeds -> outside village
+    * some "id" (prayer bead bracelet) gotten at "Qaran" temple so she can visit Sobekneferu
+    * (---a donkey for transportation between Faiyoum and)
+    * ceramic jug with beer, to pay for transport between Fayoum and Qaroun Temple
     
 - So basically it goes like this:
   : cutscene: she joins the caravans of camels trudging across ocher sand dunes etc..
-  : continue where the demo starts
-  : but this time she goes first to the Qarun Palace, there she has a dream
-  : Joins the cult, it turns out that an evil wizard is trying to sabotage egypt by messing with the floods
-  : then she has to go to Hawara and deal with a wizard, fight her or something. Evil wizardess flees
-  : change the ending
+  : continue where the demo starts but it's between Faiyoum and Lake Moeris.
+  : but this time she goes first to the Qarun Temple (not palace!), there she has a dream (but it did not exist at the time!!)
+  : Joins the cult, the vision/dream tells her to go to Hawara and talk to the Pharaoh (Sobekneferu)
+  : Turns out that an evil wizard is trying to sabotage Egypt by messing with the floods. If Aya accepts the challenge, she might have a chance to save her people and Egypt.
