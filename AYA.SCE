@@ -190,6 +190,7 @@ REMOV   22      verb
 WEAR    23      verb
 R       24      verb
 REDES   24      verb
+Q	25	verb
 QUIT    25      verb
 STOP    25      verb
 SAVE    26      verb
@@ -247,19 +248,11 @@ It's too dark to see anything.
 /1
 I can also see: 
 /2
-
-What now?
 /3
-
-What next?
 /4
-
-What should I do now?
 /5
-
-What should I do next?
 /6
-I was not able to understand any of that.  Please try again.
+I was not able to understand any of that.
 
 /7
 I can't go in that direction.
@@ -295,7 +288,7 @@ Press any key to continue.
 I'm not wearing one of those.
 
 /24
-I can't.  I'm wearing the _.
+I can't. I'm wearing the _.
 
 /25
 I already have the _.
@@ -320,7 +313,7 @@ N
 More...
 /33
 
->
+> 
 /34 ;*Spare
 /35
 
@@ -345,7 +338,7 @@ I can't wear the _.
 I can't remove the _.
 
 /42
-I can't remove the _.  My hands are full.
+I can't remove the _. My hands are full.
 
 /43
 The _ weighs too much for me.
@@ -410,16 +403,27 @@ A pocket torch. (lit)
 /0
 EMPTY DATABASE - DAAD V2.
 /1
-I'm at location number one. A road leads north.
 /2
-I'm at location number two. A road leads south.
+This dusty path wanders between lake Osiris and the city of Fayoum. The path continues
+to the north-west.
+/3
+The lake extends into the background, in the middle of the otherwise desolate desert.
+The path continues west to a small temple.
+/4
+The entrance to the temple features two simple stone pillars, which support a roof of heavy
+stone slabs. A path to the east descends to the lake shore.
 ;------------------------------------------------------------------------------
 /CON    ;Connections
 /0
 /1
-N 2
 /2
-S 1
+NW 3
+/3
+W 4
+E 2
+SE 2
+/4
+E 3
 ;------------------------------------------------------------------------------
 /OBJ    ;Object Definitions
 ;obj  starts  weight    c w  5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0    noun   adjective
@@ -575,7 +579,7 @@ LOOK    _       RESTART
 /PRO 6 ; Initialise the DAAD system
 
 _       _       WINDOW  1               ; Windows are random
-_       _       WINAT   14       0
+_       _       WINAT   0       0	; 14?
                 WINSIZE 25      127     ; Maximum window
                 CLS
                 DESC    0               ; Introduction
@@ -595,6 +599,5 @@ _       _       RESET                   ; Set objects to start location & Flag 1
                 LET     MaxCarr  4
                 SET     CPNoun
                 SET     CPAdject
-                GOTO    1               ; Main game
+                GOTO    2               ; Main game
 
-
